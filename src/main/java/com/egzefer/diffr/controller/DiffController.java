@@ -20,15 +20,14 @@ import java.util.NoSuchElementException;
 @RestController
 public class DiffController {
 
-	@PostMapping(value = "/v1/diff/{id}/{side}")
-	public ResponseEntity<String> addDiff(
-		@PathVariable String id, @PathVariable Side side, @RequestBody String content) {
+	@PostMapping(value = "/v1/diff/{id}/left")
+	public ResponseEntity<String> addLeftDiff(@PathVariable String id, @RequestBody String content) {
+		return addDiff(id, Side.left, content);
+	}
 
-		Diff diff = diffService.addDiff(id, side, content);
-
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(diff.getId()).toUri();
-
-		return ResponseEntity.created(location).build();
+	@PostMapping(value = "/v1/diff/{id}/right")
+	public ResponseEntity<String> addRightDiff(@PathVariable String id, @RequestBody String content) {
+		return addDiff(id, Side.right, content);
 	}
 
 	@GetMapping(value = "/v1/diff/{id}")
@@ -37,14 +36,32 @@ public class DiffController {
 		return ResponseEntity.ok(mapper.writeValueAsString(diffService.compare(id)));
 	}
 
-	@GetMapping(value = "/v1/diff/{id}/{side}")
-	public ResponseEntity<String> getDiffContent(@PathVariable String id, @PathVariable Side side) {
-		return getDiffContent(id, side, false);
+	@GetMapping(value = "/v1/diff/{id}/left")
+	public ResponseEntity<String> getLeftDiffContent(@PathVariable String id) {
+		return getDiffContent(id, Side.left, false);
 	}
 
-	@GetMapping(value = "/v1/diff/{id}/{side}/decoded")
-	public ResponseEntity<String> getDecodedDiffContent(@PathVariable String id, @PathVariable Side side) {
-		return getDiffContent(id, side, true);
+	@GetMapping(value = "/v1/diff/{id}/right")
+	public ResponseEntity<String> getRightDiffContent(@PathVariable String id) {
+		return getDiffContent(id, Side.right, false);
+	}
+
+	@GetMapping(value = "/v1/diff/{id}/left/decoded")
+	public ResponseEntity<String> getDecodedLeftDiffContent(@PathVariable String id) {
+		return getDiffContent(id, Side.left, true);
+	}
+
+	@GetMapping(value = "/v1/diff/{id}/right/decoded")
+	public ResponseEntity<String> getDecodedRightDiffContent(@PathVariable String id) {
+		return getDiffContent(id, Side.right, true);
+	}
+
+	private ResponseEntity<String> addDiff(@PathVariable String id, @PathVariable Side side, @RequestBody String content) {
+		Diff diff = diffService.addDiff(id, side, content);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(diff.getId()).toUri();
+
+		return ResponseEntity.created(location).build();
 	}
 
 	private ResponseEntity<String> getDiffContent(@PathVariable String id, Side side, boolean decoded) {
