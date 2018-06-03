@@ -41,11 +41,6 @@ public class DiffService {
 		return new String(Base64.getDecoder().decode(content));
 	}
 
-	/** Used for testing */
-	Set<Diff> getDiffs() {
-		return diffs;
-	}
-
 	public DiffDetails compare(String id) {
 		DiffDetails details = new DiffDetails(id, false, false);
 
@@ -119,6 +114,11 @@ public class DiffService {
 			.filter(d -> d.getId().equals(id) && d.getSide().equals(side))
 			.findFirst()
 			.orElse(null);
+	}
+
+	/** Used for testing */
+	Set<Diff> getDiffs() {
+		return diffs;
 	}
 
 }
