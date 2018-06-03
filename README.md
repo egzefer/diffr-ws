@@ -16,7 +16,6 @@ mvn spring-boot:run
 
 Alternatively, from an IDE, run the `DiffrApplication` class as a Java Application.
 
-
 ### Running Tests
 
 #### Unit Tests
@@ -88,9 +87,9 @@ Executes the comparison between two contents under the same ID.
 ```
 GET - /v1/diff/{id}
 ```
-The return JSON will always have the following format:
+The Response JSON will always have the following format:
 
-```json
+```
 {
     "id": [informed ID],
     "equal": [true/false],
@@ -204,10 +203,13 @@ curl -v -X GET http://localhost:8080/v1/diff/1/right/decoded
 Sample Response:
 ```json
 {
-	"firstName":"Josh",
-	"lastName":"Doe",
-	"code":"0002"
+    "firstName": "Josh",
+    "lastName": "Doe",
+    "code": "0002"
 }
 ```
 </details>
 
+## Implementation Details
+The list of Contents available for comparison are kept *in-memory* - no database is required or was added to the implementation.
+That being said, each time the application is restarted, the list of Contents will be empty.
