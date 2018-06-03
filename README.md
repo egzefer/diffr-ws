@@ -210,6 +210,11 @@ Sample Response:
 ```
 </details>
 
-## Implementation Details
+## Implementation Details and Suggestions
+
+### In-Memory data
 The list of Contents available for comparison are kept *in-memory* - no database is required or was added to the implementation.
 That being said, each time the application is restarted, the list of Contents will be empty.
+
+### Suggestions
+The comparison API (#3) could be improved, having a new detailed version, which could decode the Content and inform the lines (or JSON attributes) that differ.
