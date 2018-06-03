@@ -79,7 +79,8 @@ public class DiffServiceTest {
 	public void decodeJsonContent_encodedContentGiven_contentDecoded() {
 		String decodedJsonContent = diffService.decodeJsonContent(JOHN_DOE_JSON_ENCODED);
 
-		Assert.assertEquals("{\n\t\"firstName\":\"John\",\n\t\"lastName\":\"Doe\"\n}", decodedJsonContent);
+		Assert.assertEquals(
+			"{\n\t\"firstName\":\"John\",\n\t\"lastName\":\"Doe\",\n\t\"code\":\"0001\"\n}", decodedJsonContent);
 	}
 
 }
